@@ -48,7 +48,7 @@ document.addEventListener("keyup", function(event){
     }
 })
 
-addToDo("Drink Coffee", 1, false, false);
+// addToDo("Drink Coffee", 1, false, false);
 
 console.log(typeof(item))
 
@@ -56,17 +56,27 @@ function completeToDo (element){
     element.classList.toggle(CHECK)
     element.classList.toggle(UNCHECK)
 
-    element.parentNode.querySelector(".text").classList.toggle("LINE_THROUGH")
-    LIST[element.id].done = LIST[element.id].done? true : false
+    element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
+    console.log(LIST[0])
+    // LIST[element.id].done = LIST[element.id].done ? false : true;
 }
 
 function removeToDo (element){
     element.parentNode.parentNode.removeChild(element.parentNode)
-    LIST[element.id].trash = done
+    LIST[element.id].trash = true
 }
 
 
 list.addEventListener("click", function(event){
+    
     const element = event.target
+
+    const elementJob = event.target.attributes.job.value
+   
+    if (elementJob == "complete"){
+        completeToDo(element)
+    } else if (elementJob == "delete"){
+        removeToDo(element)
+    }
     
 })
