@@ -8,6 +8,7 @@ const input = document.getElementById("input")
 const CHECK = "fa-check-circle";
 const UNCHECK = "fa-circle-thin";
 const LINE_THROUGH = "lineThrough";
+let LIST = [], id = 0;
 
 const today = new Date();
 const options = {weekday: "long", month:"short", day:"numeric"}
@@ -34,12 +35,38 @@ document.addEventListener("keyup", function(event){
     if (event.keyCode==13){
         const toDo = input.value;
         if (toDo){
-            addToDo(toDo)
+            addToDo(toDo, id,false, false)
+            LIST.push({
+                name: toDo,
+                id: id,
+                done: false,
+                trash: false
+            })
+            id++
         }
         input.value ="";
     }
 })
 
-addToDo("Drink Coffee", 1, true, false);
+addToDo("Drink Coffee", 1, false, false);
 
 console.log(typeof(item))
+
+function completeToDo (element){
+    element.classList.toggle(CHECK)
+    element.classList.toggle(UNCHECK)
+
+    element.parentNode.querySelector(".text").classList.toggle("LINE_THROUGH")
+    LIST[element.id].done = LIST[element.id].done? true : false
+}
+
+function removeToDo (element){
+    element.parentNode.parentNode.removeChild(element.parentNode)
+    LIST[element.id].trash = done
+}
+
+
+list.addEventListener("click", function(event){
+    const element = event.target
+    
+})
