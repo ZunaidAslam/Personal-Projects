@@ -8,7 +8,32 @@ const input = document.getElementById("input")
 const CHECK = "fa-check-circle";
 const UNCHECK = "fa-circle-thin";
 const LINE_THROUGH = "lineThrough";
-let LIST = [], id = 0;
+let LIST= [], id=0 ;
+
+//get item from localstorange
+let data = localStorage.getItem("TODO");
+
+if(data){
+    LIST = JSON.parse(data);
+    id = LIST.length;
+    loadList(LIST);
+} else {
+    LIST = [];
+    id = 0;
+}
+
+function loadList(array){
+    array.forEach(function(item){
+        addToDo(item.name,item.id,item.done,item.trash)
+    })
+}
+
+clear.addEventListener("click", function(){
+    localStorage.clear();
+    location.reload();
+})
+
+
 
 const today = new Date();
 const options = {weekday: "long", month:"short", day:"numeric"}
@@ -36,12 +61,16 @@ document.addEventListener("keyup", function(event){
         const toDo = input.value;
         if (toDo){
             addToDo(toDo, id,false, false)
+            console.log(LIST)
             LIST.push({
                 name: toDo,
                 id: id,
                 done: false,
                 trash: false
             })
+            //add item from localstorange
+            
+            localStorage.setItem("TODO", JSON.stringify(LIST))
             id++
         }
         input.value ="";
@@ -58,7 +87,7 @@ function completeToDo (element){
 
     element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
     console.log(LIST[0])
-    // LIST[element.id].done = LIST[element.id].done ? false : true;
+    LIST[element.id].done = LIST[element.id].done ? false : true;
 }
 
 function removeToDo (element){
@@ -78,5 +107,6 @@ list.addEventListener("click", function(event){
     } else if (elementJob == "delete"){
         removeToDo(element)
     }
-    
+    //add item from localstorange
+    localStorage.setItem("TODO", JSON.stringify(LIST))
 })
